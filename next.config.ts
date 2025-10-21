@@ -12,8 +12,8 @@ const client = createClient({
 })
 
 export default {
-	assetPrefix: '/blog',
-	distDir: 'out/blog',
+	// Remove assetPrefix and distDir for standard deployment
+	// If deploying to a subdirectory, configure in Vercel settings instead
 	images: {
 		dangerouslyAllowSVG: true,
 		remotePatterns: [
@@ -43,15 +43,9 @@ export default {
 		}`)
 	},
 
+	// Removed language-based rewrites since we're using cookie-based language detection
 	async rewrites() {
-		if (!supportedLanguages?.length) return []
-
-		return [
-			{
-				source: `/:lang/${BLOG_DIR}/:slug`,
-				destination: `/${BLOG_DIR}/:lang/:slug`,
-			},
-		]
+		return []
 	},
 
 	env: {
