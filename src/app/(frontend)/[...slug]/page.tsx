@@ -27,15 +27,13 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export async function generateStaticParams() {
-	const posts = await client.fetch<Array<{ slug: string; language: string }>>(
+	const posts = await client.fetch<Array<{ slug: string }>>(
 		groq`*[_type == 'blog.post' && defined(metadata.slug.current)]{
-			"slug": metadata.slug.current,
-			"language": language
+			"slug": metadata.slug.current
 		}`,
 	)
 
-	return posts.map(({ slug, language }) => ({
-		locale: language,
+	return posts.map(({ slug }) => ({
 		slug: [slug],
 	}))
 }
