@@ -6,9 +6,11 @@ import Reputation from '@/ui/Reputation'
 export default function Callout({
 	content,
 	ctas,
+	language,
 }: Partial<{
 	content: any
 	ctas: Sanity.CTA[]
+	language?: string
 }>) {
 	return (
 		<section className="section text-center">
@@ -34,7 +36,11 @@ export default function Callout({
 							},
 						}}
 					/>
-					<CTAList className="!mt-8 justify-center" ctas={ctas} />
+					<CTAList
+						className="!mt-8 justify-center"
+						ctas={ctas}
+						language={language}
+					/>
 				</div>
 			</div>
 		</section>

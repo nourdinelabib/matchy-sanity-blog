@@ -13,6 +13,7 @@ export default function HeroSplit({
 	assets,
 	assetOnRight,
 	assetBelowContent,
+	language,
 }: Partial<{
 	pretitle: string
 	content: any
@@ -20,6 +21,7 @@ export default function HeroSplit({
 	assets: Array<Sanity.Img | Sanity.Code | Sanity.CustomHTML>
 	assetOnRight: boolean
 	assetBelowContent: boolean
+	language?: string
 }>) {
 	const asset = assets?.[0]
 
@@ -48,7 +50,7 @@ export default function HeroSplit({
 						},
 					}}
 				/>
-				<CTAList ctas={ctas} className="!mt-6" />
+				<CTAList ctas={ctas} className="!mt-6" language={language} />
 			</div>
 		</section>
 	)

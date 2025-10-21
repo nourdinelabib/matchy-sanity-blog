@@ -6,9 +6,11 @@ import List, { filterPosts } from '../BlogList/List'
 export default function Paginated({
 	posts,
 	itemsPerPage = 6,
+	language,
 }: {
 	posts: Sanity.BlogPost[]
 	itemsPerPage?: number
+	language?: string
 }) {
 	const { paginatedItems, Pagination } = usePagination({
 		items: filterPosts(posts),
@@ -27,11 +29,12 @@ export default function Paginated({
 			<List
 				id="blog-list"
 				posts={paginatedItems}
+				language={language}
 				className="grid scroll-mt-[calc(var(--header-height)+1rem)] gap-x-8 gap-y-12 sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]"
 			/>
 
 			<Pagination
-				className="frosted-glass sticky bottom-0 flex items-center justify-center gap-4 bg-canvas p-2 pb-[max(env(safe-area-inset-bottom),0.5rem)] tabular-nums"
+				className="frosted-glass bg-canvas sticky bottom-0 flex items-center justify-center gap-4 p-2 pb-[max(env(safe-area-inset-bottom),0.5rem)] tabular-nums"
 				buttonClassName="hover:underline disabled:opacity-20"
 				onClick={scrollToList}
 			/>

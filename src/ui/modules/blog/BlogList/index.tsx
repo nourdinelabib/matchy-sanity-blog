@@ -89,7 +89,7 @@ export default async function BlogList({
 					</ul>
 				}
 			>
-				<List posts={posts} className={listClassName} />
+				<List posts={posts} language={lang} className={listClassName} />
 			</Suspense>
 		</section>
 	)

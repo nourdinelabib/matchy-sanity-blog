@@ -23,7 +23,7 @@ export const presentation = presentationTool({
 				filter: groq`_type == 'page' && metadata.slug.current == $slug`,
 			},
 			{
-				route: `/${BLOG_DIR}/:slug`,
+				route: `/${BLOG_DIR}:slug`,
 				filter: groq`_type == 'blog.post' && metadata.slug.current == $slug`,
 			},
 		],
@@ -65,7 +65,7 @@ export const presentation = presentationTool({
 					locations: [
 						{
 							title: doc?.title || 'Untitled',
-							href: doc?.slug ? `/${BLOG_DIR}/${doc.slug}` : `/${BLOG_DIR}`,
+							href: doc?.slug ? `/${BLOG_DIR}${doc.slug}` : `/${BLOG_DIR}`,
 						},
 					],
 				}),

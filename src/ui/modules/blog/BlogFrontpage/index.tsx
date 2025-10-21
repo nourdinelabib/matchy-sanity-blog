@@ -48,7 +48,7 @@ export default async function BlogFrontpage({
 
 	return (
 		<section className="section space-y-12">
-			<PostPreviewLarge post={firstPost} />
+			<PostPreviewLarge post={firstPost} language={lang} />
 
 			<hr />
 
@@ -68,6 +68,7 @@ export default async function BlogFrontpage({
 				<Paginated
 					posts={sortFeaturedPosts(otherPosts, showFeaturedPostsFirst)}
 					itemsPerPage={itemsPerPage}
+					language={lang}
 				/>
 			</Suspense>
 		</section>

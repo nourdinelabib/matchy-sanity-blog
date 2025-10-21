@@ -9,7 +9,7 @@ import {
 	GLOBAL_MODULE_PATH_QUERY,
 	TRANSLATIONS_QUERY,
 } from '@/sanity/lib/queries'
-import { DEFAULT_LANG, languages } from '@/lib/i18n'
+import { Lang } from '@/lib/i18n'
 import errors from '@/lib/errors'
 
 export default async function Page({ params }: Props) {
@@ -21,7 +21,8 @@ export default async function Page({ params }: Props) {
 export async function generateMetadata({ params }: Props) {
 	const page = await getPage(await params)
 	if (!page) notFound()
-	return processMetadata(page)
+	const { locale } = await params
+	return processMetadata(page, locale)
 }
 
 export async function generateStaticParams() {
@@ -39,13 +40,14 @@ export async function generateStaticParams() {
 }
 
 async function getPage(params: Params) {
-	const { slug, lang } = processSlug(params)
+	const { locale } = await params
+	const slug = 'blog'
 
 	const page = await fetchSanityLive<Sanity.Page>({
 		query: groq`*[
 			_type == 'page'
 			&& metadata.slug.current == $slug
-			${lang ? `&& language == '${lang}'` : ''}
+			${locale ? `&& language == '${locale}'` : ''}
 		][0]{
 			...,
 			'modules': (
@@ -69,39 +71,13 @@ async function getPage(params: Params) {
 		params: { slug },
 	})
 
-	if (slug === 'index' && !page) throw new Error(errors.missingHomepage)
+	if (slug === 'blog' && !page) throw new Error(errors.missingHomepage)
 
 	return page
 }
 
-type Params = { slug?: string[] }
+type Params = { locale: Lang }
 
 type Props = {
 	params: Promise<Params>
-}
-
-function processSlug(params: Params) {
-	const lang =
-		params.slug && languages.includes(params.slug[0])
-			? params.slug[0]
-			: DEFAULT_LANG
-
-	if (params.slug === undefined)
-		return {
-			slug: 'index',
-			lang,
-		}
-
-	const slug = params.slug.join('/')
-
-	if (lang) {
-		const processed = slug.replace(new RegExp(`^${lang}/?`), '')
-
-		return {
-			slug: processed === '' ? 'index' : processed,
-			lang,
-		}
-	}
-
-	return { slug }
 }

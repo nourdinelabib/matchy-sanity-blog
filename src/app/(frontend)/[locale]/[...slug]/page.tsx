@@ -10,11 +10,10 @@ import {
 	MODULES_QUERY,
 	TRANSLATIONS_QUERY,
 } from '@/sanity/lib/queries'
-import { languages, type Lang } from '@/lib/i18n'
+import { DEFAULT_LANG, languages, type Lang } from '@/lib/i18n'
 import errors from '@/lib/errors'
 
 export default async function Page({ params }: Props) {
-	console.log('Page', await params)
 	const post = await getPost(await params)
 	if (!post) notFound()
 	return <Modules modules={post.modules} post={post} />
@@ -23,25 +22,35 @@ export default async function Page({ params }: Props) {
 export async function generateMetadata({ params }: Props) {
 	const post = await getPost(await params)
 	if (!post) notFound()
-	return processMetadata(post)
+	const { locale } = await params
+	return processMetadata(post, locale)
 }
 
 export async function generateStaticParams() {
-	const slugs = await client.fetch<string[]>(
-		groq`*[_type == 'blog.post' && defined(metadata.slug.current)].metadata.slug.current`,
+	const posts = await client.fetch<Array<{ slug: string; language: string }>>(
+		groq`*[_type == 'blog.post' && defined(metadata.slug.current)]{
+			"slug": metadata.slug.current,
+			"language": language
+		}`,
 	)
 
-	return slugs.map((slug) => ({ slug: slug.split('/') }))
+	return posts.map(({ slug, language }) => ({
+		locale: language,
+		slug: [slug],
+	}))
 }
 
-async function getPost(params: Params) {
+async function getPost({ locale, slug }: Params) {
 	const blogTemplateExists = await fetchSanityLive<boolean>({
 		query: groq`count(*[_type == 'global-module' && path == '${BLOG_DIR}/']) > 0`,
 	})
 
 	if (!blogTemplateExists) throw new Error(errors.missingBlogTemplate)
 
-	const { slug, lang } = processSlug(params)
+	const lang = locale && languages.includes(locale) ? locale : DEFAULT_LANG
+
+	// With BLOG_DIR = '', slug array contains just the blog post slug
+	const blogSlug = slug.join('/')
 
 	return await fetchSanityLive<Sanity.BlogPost & { modules: Sanity.Module[] }>({
 		query: groq`*[
@@ -80,25 +89,12 @@ async function getPost(params: Params) {
 			),
 			${TRANSLATIONS_QUERY},
 		}`,
-		params: { slug },
+		params: { slug: blogSlug },
 	})
 }
 
-type Params = { slug: string[] }
+type Params = { locale: Lang; slug: string[] }
 
 type Props = {
 	params: Promise<Params>
-}
-
-function processSlug(params: Params) {
-	const lang = languages.includes(params.slug[0] as Lang)
-		? params.slug[0]
-		: undefined
-
-	const slug = params.slug.join('/')
-
-	return {
-		slug: lang ? slug.replace(new RegExp(`^${lang}/`), '') : slug,
-		lang,
-	}
 }
