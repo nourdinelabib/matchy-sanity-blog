@@ -1,9 +1,8 @@
 'use client'
 
 import { useEffect, useState, type ComponentProps } from 'react'
-import { redirect, usePathname } from 'next/navigation'
 import { DEFAULT_LANG, supportedLanguages } from '@/lib/i18n'
-import { setLangCookie } from '@/ui/LanguageSwitcher/actions'
+import { setLangCookie, getLangCookie } from '@/ui/LanguageSwitcher/actions'
 import { VscGlobe, VscLoading } from 'react-icons/vsc'
 import { cn } from '@/lib/utils'
 
@@ -12,28 +11,27 @@ export default function LocaleSwitcher({
 	...props
 }: ComponentProps<'button'>) {
 	const [loading, setLoading] = useState(false)
-	const pathname = usePathname()
+	const [currentLang, setCurrentLang] = useState<string>(DEFAULT_LANG)
 
-	useEffect(() => setLoading(false), [pathname])
+	useEffect(() => {
+		// Get current language from cookie
+		getLangCookie().then((lang) => {
+			setCurrentLang(lang || DEFAULT_LANG)
+		})
+	}, [])
 
-	const handleLanguageChange = () => {
+	const handleLanguageChange = async () => {
 		setLoading(true)
 		// Toggle between Arabic and English
-		const currentLang = getCurrentLang()
 		const nextLang = currentLang === 'ar' ? 'en' : 'ar'
-		setLangCookie(nextLang)
-		redirect(pathname)
+		await setLangCookie(nextLang)
+		// Force a full page reload to apply the new language from cookie
+		window.location.reload()
 	}
 
-	const getCurrentLang = () => {
-		// Extract language from pathname or default to Arabic
-		const langMatch = pathname.match(/^\/(?:blog\/)?(ar|en)/)
-		return langMatch ? langMatch[1] : DEFAULT_LANG
-	}
-
-	const currentLang = getCurrentLang()
 	const nextLang = currentLang === 'ar' ? 'en' : 'ar'
-	const nextLangTitle = supportedLanguages.find(l => l.id === nextLang)?.title || nextLang
+	const nextLangTitle =
+		supportedLanguages.find((l) => l.id === nextLang)?.title || nextLang
 
 	return (
 		<button

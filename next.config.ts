@@ -12,7 +12,8 @@ const client = createClient({
 })
 
 export default {
-	basePath: '/blog',
+	assetPrefix: '/blog',
+	distDir: 'out/blog',
 	images: {
 		dangerouslyAllowSVG: true,
 		remotePatterns: [

@@ -7,3 +7,8 @@ export async function setLangCookie(lang?: string) {
 	if (!lang) return
 	;(await cookies()).set(langCookieName, lang)
 }
+
+export async function getLangCookie() {
+	const cookieStore = await cookies()
+	return cookieStore.get(langCookieName)?.value
+}

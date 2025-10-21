@@ -9,19 +9,19 @@ import {
 	GLOBAL_MODULE_PATH_QUERY,
 	TRANSLATIONS_QUERY,
 } from '@/sanity/lib/queries'
-import { Lang } from '@/lib/i18n'
 import errors from '@/lib/errors'
+import { getLangServer } from '@/lib/getLangServer'
 
-export default async function Page({ params }: Props) {
-	const page = await getPage(await params)
+export default async function Page() {
+	const page = await getPage()
 	if (!page) notFound()
 	return <Modules modules={page.modules} page={page} />
 }
 
-export async function generateMetadata({ params }: Props) {
-	const page = await getPage(await params)
+export async function generateMetadata() {
+	const page = await getPage()
 	if (!page) notFound()
-	const { locale } = await params
+	const locale = await getLangServer()
 	return processMetadata(page, locale)
 }
 
@@ -39,8 +39,8 @@ export async function generateStaticParams() {
 	return slugs.map(({ slug }) => ({ slug: slug.split('/') }))
 }
 
-async function getPage(params: Params) {
-	const { locale } = await params
+async function getPage() {
+	const locale = await getLangServer()
 	const slug = 'blog'
 
 	const page = await fetchSanityLive<Sanity.Page>({
@@ -74,10 +74,4 @@ async function getPage(params: Params) {
 	if (slug === 'blog' && !page) throw new Error(errors.missingHomepage)
 
 	return page
-}
-
-type Params = { locale: Lang }
-
-type Props = {
-	params: Promise<Params>
 }

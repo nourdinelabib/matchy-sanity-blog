@@ -10,8 +10,8 @@ import {
 	MODULES_QUERY,
 	TRANSLATIONS_QUERY,
 } from '@/sanity/lib/queries'
-import { DEFAULT_LANG, languages, type Lang } from '@/lib/i18n'
 import errors from '@/lib/errors'
+import { getLangServer } from '@/lib/getLangServer'
 
 export default async function Page({ params }: Props) {
 	const post = await getPost(await params)
@@ -22,7 +22,7 @@ export default async function Page({ params }: Props) {
 export async function generateMetadata({ params }: Props) {
 	const post = await getPost(await params)
 	if (!post) notFound()
-	const { locale } = await params
+	const locale = await getLangServer()
 	return processMetadata(post, locale)
 }
 
@@ -40,14 +40,13 @@ export async function generateStaticParams() {
 	}))
 }
 
-async function getPost({ locale, slug }: Params) {
+async function getPost({ slug }: Params) {
+	const locale = await getLangServer()
 	const blogTemplateExists = await fetchSanityLive<boolean>({
 		query: groq`count(*[_type == 'global-module' && path == '${BLOG_DIR}/']) > 0`,
 	})
 
 	if (!blogTemplateExists) throw new Error(errors.missingBlogTemplate)
-
-	const lang = locale && languages.includes(locale) ? locale : DEFAULT_LANG
 
 	// With BLOG_DIR = '', slug array contains just the blog post slug
 	const blogSlug = slug.join('/')
@@ -56,7 +55,7 @@ async function getPost({ locale, slug }: Params) {
 		query: groq`*[
 			_type == 'blog.post'
 			&& metadata.slug.current == $slug
-			${lang ? `&& language == '${lang}'` : ''}
+			${locale ? `&& language == '${locale}'` : ''}
 		][0]{
 			...,
 			body[]{
@@ -93,7 +92,7 @@ async function getPost({ locale, slug }: Params) {
 	})
 }
 
-type Params = { locale: Lang; slug: string[] }
+type Params = { slug: string[] }
 
 type Props = {
 	params: Promise<Params>

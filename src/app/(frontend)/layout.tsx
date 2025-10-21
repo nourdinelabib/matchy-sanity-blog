@@ -9,21 +9,17 @@ import VisualEditingControls from '@/ui/VisualEditingControls'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import '@/styles/app.css'
-import { supportedLanguages } from '@/lib/i18n'
-
-export async function generateStaticParams() {
-	return supportedLanguages.map((lang) => ({
-		locale: lang.id,
-	}))
-}
+import { getLangServer } from '@/lib/getLangServer'
 
 export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode
 }) {
+	const lang = await getLangServer()
+
 	return (
-		<Root>
+		<Root lang={lang}>
 			{/* <GoogleTagManager gtmId="" /> */}
 			<body className="bg-canvas text-ink antialiased">
 				<NuqsAdapter>

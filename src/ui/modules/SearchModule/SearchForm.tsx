@@ -7,7 +7,6 @@ import Loading from '@/ui/Loading'
 import resolveUrl from '@/lib/resolveUrl'
 import SearchGoogle from './SearchGoogle'
 import css from './SearchForm.module.css'
-import getLang from '@/lib/getLang'
 
 /**
  * @note Remember to wrap this component in a Suspense
@@ -16,15 +15,16 @@ export default function SearchForm({
 	className,
 	scope,
 	path,
+	language,
 	...props
 }: Partial<{
 	scope: SearchScope
 	path: string
+	language: string
 }> &
 	React.ComponentProps<'search'>) {
 	const { query, setQuery } = useQuery()
 	const { loading, setLoading, results, setResults } = searchStore()
-	const language = getLang()
 
 	return (
 		<search className={cn(css.root, 'relative', className)} {...props}>
