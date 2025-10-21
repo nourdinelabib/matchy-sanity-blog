@@ -9,6 +9,13 @@ import VisualEditingControls from '@/ui/VisualEditingControls'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import '@/styles/app.css'
+import { supportedLanguages } from '@/lib/i18n'
+
+export async function generateStaticParams() {
+	return supportedLanguages.map((lang) => ({
+		locale: lang.id,
+	}))
+}
 
 export default async function RootLayout({
 	children,
