@@ -14,6 +14,7 @@ import { languages, type Lang } from '@/lib/i18n'
 import errors from '@/lib/errors'
 
 export default async function Page({ params }: Props) {
+	console.log('Page', await params)
 	const post = await getPost(await params)
 	if (!post) notFound()
 	return <Modules modules={post.modules} post={post} />

@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineField, defineType, SlugValidationContext } from 'sanity'
 import { CharacterCount } from '@/sanity/ui/CharacterCount'
 import PreviewOG from '@/sanity/ui/PreviewOG'
 
@@ -14,6 +14,7 @@ export default defineType({
 			description: 'URL path or permalink',
 			options: {
 				source: (doc: any) => doc.title || doc.metadata.title,
+				isUnique: isUniqueOtherThanLanguage
 			},
 			validation: (Rule) => Rule.required(),
 		}),
@@ -56,3 +57,24 @@ export default defineType({
 		}),
 	],
 })
+
+export async function isUniqueOtherThanLanguage(slug: string, context: SlugValidationContext) {
+  const {document, getClient} = context
+  if (!document?.language) {
+    return true
+  }
+  const client = getClient({apiVersion: '2025-02-19'})
+  const id = document._id.replace(/^drafts\./, '')
+  const params = {
+    id,
+    language: document.language,
+    slug,
+  }
+  const query = `!defined(*[
+    !(sanity::versionOf($id)) &&
+    slug.current == $slug &&
+    language == $language
+  ][0]._id)`
+  const result = await client.fetch(query, params)
+  return result
+}

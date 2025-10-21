@@ -13,9 +13,11 @@ import {
 } from 'react-icons/fa6'
 import { IoIosLink } from 'react-icons/io'
 import type { ComponentProps } from 'react'
+import { getLangServer } from '@/lib/getLangServer'
 
 export default async function Social({ className }: ComponentProps<'div'>) {
-	const { social } = await getSite()
+	const lang = await getLangServer()
+	const { social } = await getSite(lang)
 
 	if (!social?.items?.length) return null
 

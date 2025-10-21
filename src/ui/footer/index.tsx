@@ -1,18 +1,19 @@
 import { getSite } from '@/sanity/lib/queries'
 import Navigation from './Navigation'
 import Social from '@/ui/Social'
-import LanguageSwitcher from '@/ui/LanguageSwitcher'
 import { PortableText } from 'next-sanity'
 import Link from 'next/link'
 import { Img } from '@/ui/Img'
+import { getLangServer } from '@/lib/getLangServer'
 
 export default async function Footer() {
-	const { title, blurb, logo, copyright } = await getSite()
+	const lang = await getLangServer()
+	const { title, blurb, logo, copyright } = await getSite(lang)
 
 	const logoImage = logo?.image?.light || logo?.image?.default
 
 	return (
-		<footer className="bg-ink text-canvas" role="contentinfo">
+		<footer className="text-ink bg-white" role="contentinfo">
 			<div className="section flex flex-wrap justify-between gap-x-12 gap-y-8 max-sm:flex-col">
 				<div className="flex flex-col gap-3 self-stretch">
 					<Link className="h3 md:h2 max-w-max" href="/">
@@ -34,15 +35,13 @@ export default async function Footer() {
 					)}
 
 					<Social className="mb-auto -ml-2" />
-
-					<LanguageSwitcher className="mt-4 max-w-max" />
 				</div>
 
 				<Navigation />
 			</div>
 
 			{copyright && (
-				<div className="border-canvas/20 mx-auto flex max-w-screen-xl flex-wrap justify-center gap-x-6 gap-y-2 border-t p-4 pb-[max(1rem,env(safe-area-inset-bottom))] text-sm [&_a:hover]:underline">
+				<div className="border-ink/20 mx-auto flex max-w-screen-xl flex-wrap justify-center gap-x-6 gap-y-2 border-t p-4 pb-[max(1rem,env(safe-area-inset-bottom))] text-sm [&_a:hover]:underline">
 					<PortableText value={copyright} />
 				</div>
 			)}

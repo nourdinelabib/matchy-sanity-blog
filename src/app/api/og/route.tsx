@@ -1,6 +1,7 @@
 import { getSite } from '@/sanity/lib/queries'
 import { ImageResponse } from 'next/og'
 import type { NextRequest } from 'next/server'
+import { DEFAULT_LANG } from '@/lib/i18n'
 
 const domain = process.env.NEXT_PUBLIC_BASE_URL?.replace(/https?:\/\//, '')
 
@@ -8,7 +9,8 @@ const color = '#13141b'
 
 export async function GET(request: NextRequest) {
 	const { searchParams } = request.nextUrl
-	const site = await getSite()
+	const lang = searchParams.get('lang') || DEFAULT_LANG
+	const site = await getSite(lang)
 
 	// remove divider and site.title in metadata.title
 	const regex = new RegExp(` [-—|]+ ${site.title}$`)

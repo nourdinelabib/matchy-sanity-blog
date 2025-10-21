@@ -7,7 +7,10 @@ export const structure = structureTool({
 		S.list()
 			.title('Content')
 			.items([
-				singleton(S, 'site', 'Site settings').icon(VscServerProcess),
+				// singleton(S, 'site', 'Site settings').icon(VscServerProcess),
+				S.documentTypeListItem('site')
+					.title('Site settings')
+					.icon(VscServerProcess), // Add this instead
 				S.divider(),
 
 				S.documentTypeListItem('page').title('All pages').icon(VscFiles),

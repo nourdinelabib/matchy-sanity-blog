@@ -1,7 +1,7 @@
 'use client'
 
 import pkg from './package.json'
-import { defineConfig } from 'sanity'
+import { defineConfig, defineField, SlugValidationContext } from 'sanity'
 import { projectId, dataset, apiVersion } from '@/sanity/lib/env'
 import { structure } from './src/sanity/structure'
 import { presentation } from './src/sanity/presentation'
@@ -20,7 +20,7 @@ import { documentInternationalization } from '@sanity/document-internationalizat
 import { schemaTypes } from './src/sanity/schemaTypes'
 import resolveUrl from '@/lib/resolveUrl'
 
-const singletonTypes = ['site']
+const singletonTypes: string[] = []
 
 export default defineConfig({
 	title: 'SanityPress',
@@ -50,7 +50,7 @@ export default defineConfig({
 		codeInput(),
 		documentInternationalization({
 			supportedLanguages,
-			schemaTypes: ['page', 'blog.post'],
+			schemaTypes: ['page', 'blog.post', 'site'],
 		}),
 	],
 

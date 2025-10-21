@@ -9,7 +9,7 @@ import {
 	GLOBAL_MODULE_PATH_QUERY,
 	TRANSLATIONS_QUERY,
 } from '@/sanity/lib/queries'
-import { languages } from '@/lib/i18n'
+import { DEFAULT_LANG, languages } from '@/lib/i18n'
 import errors from '@/lib/errors'
 
 export default async function Page({ params }: Props) {
@@ -84,7 +84,7 @@ function processSlug(params: Params) {
 	const lang =
 		params.slug && languages.includes(params.slug[0])
 			? params.slug[0]
-			: undefined
+			: DEFAULT_LANG
 
 	if (params.slug === undefined)
 		return {

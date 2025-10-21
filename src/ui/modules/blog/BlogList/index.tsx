@@ -64,7 +64,7 @@ export default async function BlogList({
 		'items-stretch gap-x-8 gap-y-12',
 		stegaClean(layout) === 'grid'
 			? 'grid md:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]'
-			: 'carousel max-xl:full-bleed md:overflow-fade-r pb-4 [--size:320px] max-xl:px-4',
+			: 'carousel max-xl:full-bleed pb-4 [--size:320px] max-xl:px-4',
 	)
 
 	return (

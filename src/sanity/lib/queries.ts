@@ -144,10 +144,13 @@ export const TRANSLATIONS_QUERY = groq`
 	}
 `
 
-export async function getSite() {
+export async function getSite(lang?: string) {
+	const { DEFAULT_LANG } = await import('@/lib/i18n')
+	const language = lang || DEFAULT_LANG
+
 	const site = await fetchSanityLive<Sanity.Site>({
 		query: groq`
-			*[_type == 'site'][0]{
+			*[_type == 'site' && language == $lang][0]{
 				...,
 				ctas[]{ ${CTA_QUERY} },
 				headerMenu->{ ${NAVIGATION_QUERY} },
@@ -156,6 +159,7 @@ export async function getSite() {
 				'ogimage': ogimage.asset->url
 			}
 		`,
+		params: { lang: language },
 	})
 
 	if (!site) throw new Error(errors.missingSiteSettings)

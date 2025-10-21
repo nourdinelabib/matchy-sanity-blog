@@ -30,7 +30,6 @@ export default async function RootLayout({
 
 					<VisualEditingControls />
 				</NuqsAdapter>
-
 				<Analytics />
 				<SpeedInsights />
 			</body>

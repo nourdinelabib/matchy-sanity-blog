@@ -59,3 +59,7 @@ export function getBlockText(
 		}, '') || ''
 	)
 }
+
+export function langDir(lang: string){
+	return lang === 'ar' ? 'rtl': 'ltr'
+}
