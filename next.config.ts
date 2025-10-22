@@ -12,8 +12,6 @@ const client = createClient({
 })
 
 export default {
-	// Remove assetPrefix and distDir for standard deployment
-	// If deploying to a subdirectory, configure in Vercel settings instead
 	assetPrefix: '/blog',
 	distDir: 'out/blog',
 	images: {
