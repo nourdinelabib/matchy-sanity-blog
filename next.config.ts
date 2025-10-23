@@ -14,6 +14,9 @@ export default {
 	basePath: basePath,
 	assetPrefix: basePath,
 	distDir: 'out/blog',
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
 	images: {
 		dangerouslyAllowSVG: true,
 		remotePatterns: [

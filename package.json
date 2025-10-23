@@ -7,7 +7,7 @@
 	"scripts": {
 		"dev": "next dev",
 		"dev:turbopack": "next dev --turbopack",
-		"build": "npm run manifest && next build",
+		"build": "pnpm manifest && next build",
 		"start": "next start",
 		"lint": "next lint",
 		"manifest": "sanity manifest extract --path public/admin/static",
@@ -15,6 +15,7 @@
 	},
 	"dependencies": {
 		"@portabletext/to-html": "^3.0.0",
+		"@sanity/asset-utils": "^2.3.0",
 		"@sanity/code-input": "^6.0.1",
 		"@sanity/dashboard": "^5.0.0",
 		"@sanity/document-internationalization": "^4.0.0",
