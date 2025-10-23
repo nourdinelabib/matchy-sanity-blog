@@ -11,4 +11,4 @@ export const DEFAULT_LANG = languages[0] ?? 'ar'
 
 export type Lang = (typeof languages)[number]
 
-export const langCookieName = `sanitypress-${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}-lang`
+export const langCookieName = `matchy-blog-${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}-lang`

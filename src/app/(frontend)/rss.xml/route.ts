@@ -8,13 +8,15 @@ import { urlFor } from '@/sanity/lib/image'
 import { DEFAULT_LANG } from '@/lib/i18n'
 
 export async function GET() {
+	const blogSlug = BLOG_DIR || 'index'
+
 	const { blog, posts, copyright } = await fetchSanityLive<{
 		blog: Sanity.Page
 		posts: Array<Sanity.BlogPost & { image?: string }>
 		copyright: string
 	}>({
 		query: groq`{
-			'blog': *[_type == 'page' && metadata.slug.current == '${BLOG_DIR}'][0]{
+			'blog': *[_type == 'page' && metadata.slug.current == $blogSlug][0]{
 				_type,
 				title,
 				metadata,
@@ -31,6 +33,7 @@ export async function GET() {
 			},
 			'copyright': pt::text(*[_type == 'site'][0].copyright)
 		}`,
+		params: { blogSlug },
 	})
 
 	if (!blog || !posts) {
@@ -50,7 +53,7 @@ export async function GET() {
 		copyright,
 		favicon: process.env.NEXT_PUBLIC_BASE_URL + '/favicon.ico',
 		language: DEFAULT_LANG,
-		generator: 'https://sanitypress.dev',
+		generator: 'https://www.matchy.hr',
 	})
 
 	posts.map((post) => {

@@ -1,7 +1,6 @@
 import { createClient, groq } from 'next-sanity'
-import { projectId, dataset, apiVersion } from '@/sanity/lib/env'
+import { projectId, dataset, apiVersion, basePath } from '@/sanity/lib/env'
 import { BLOG_DIR } from '@/lib/env'
-import { supportedLanguages } from '@/lib/i18n'
 import type { NextConfig } from 'next'
 
 const client = createClient({
@@ -12,8 +11,8 @@ const client = createClient({
 })
 
 export default {
-	basePath: '/blog',
-	assetPrefix: '/blog',
+	basePath: basePath,
+	assetPrefix: basePath,
 	distDir: 'out/blog',
 	images: {
 		dangerouslyAllowSVG: true,
