@@ -64,9 +64,7 @@ export default defineConfig({
 	document: {
 		productionUrl: async (prev, { document }) => {
 			if (['page', 'blog.post'].includes(document?._type)) {
-				return resolveUrl(document as Sanity.PageBase, {
-					base: true,
-				})
+				return resolveUrl(document as Sanity.PageBase)
 			}
 			return prev
 		},

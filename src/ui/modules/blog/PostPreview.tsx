@@ -33,10 +33,7 @@ export default function PostPreview({
 			</figure>
 
 			<div className={cn('h4', skeleton && 'skeleton-2')}>
-				<Link
-					className="group-hover:underline"
-					href={resolveUrl(post, { base: false })}
-				>
+				<Link className="group-hover:underline" href={resolveUrl(post)}>
 					<span className="absolute inset-0" />
 					{post?.metadata.title}
 				</Link>

@@ -24,7 +24,6 @@ export default function CTA({
 		return (
 			<Link
 				href={resolveUrl(link.internal, {
-					base: false,
 					params: link.params,
 				})}
 				{...props}

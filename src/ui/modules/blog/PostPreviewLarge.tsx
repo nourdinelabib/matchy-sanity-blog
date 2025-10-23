@@ -28,10 +28,7 @@ export default function PostPreviewLarge({ post }: { post: Sanity.BlogPost }) {
 
 			<div className="mx-auto max-w-lg space-y-4">
 				<div className="h2 md:h1">
-					<Link
-						className="group-hover:underline"
-						href={resolveUrl(post, { base: false })}
-					>
+					<Link className="group-hover:underline" href={resolveUrl(post)}>
 						<span className="absolute inset-0" />
 						{post.metadata.title}
 					</Link>
