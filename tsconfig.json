@@ -24,12 +24,6 @@
 			"react": ["./node_modules/@types/react"]
 		}
 	},
-	"include": [
-		"**/*.ts",
-		"**/*.tsx",
-		".next/types/**/*.ts",
-		"next-env.d.ts",
-		"out/blog/types/**/*.ts"
-	],
+	"include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", "out/blog/types/**/*.ts"],
 	"exclude": ["node_modules"]
 }
