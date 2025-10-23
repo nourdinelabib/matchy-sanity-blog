@@ -9,11 +9,9 @@ import { cn } from '@/lib/utils'
 export default function PostPreview({
 	post,
 	skeleton,
-	language,
 }: {
 	post?: Sanity.BlogPost
 	skeleton?: boolean
-	language?: string
 }) {
 	if (!post && !skeleton) return null
 
@@ -37,7 +35,7 @@ export default function PostPreview({
 			<div className={cn('h4', skeleton && 'skeleton-2')}>
 				<Link
 					className="group-hover:underline"
-					href={resolveUrl(post, { base: false, language })}
+					href={resolveUrl(post, { base: false })}
 				>
 					<span className="absolute inset-0" />
 					{post?.metadata.title}

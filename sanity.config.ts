@@ -66,7 +66,6 @@ export default defineConfig({
 			if (['page', 'blog.post'].includes(document?._type)) {
 				return resolveUrl(document as Sanity.PageBase, {
 					base: true,
-					language: (document as any)?.language,
 				})
 			}
 			return prev

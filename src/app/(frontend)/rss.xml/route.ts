@@ -54,7 +54,7 @@ export async function GET() {
 	})
 
 	posts.map((post) => {
-		const url = resolveUrl(post, { language: post.language })
+		const url = resolveUrl(post)
 
 		return feed.addItem({
 			title: escapeHTML(post.metadata.title),

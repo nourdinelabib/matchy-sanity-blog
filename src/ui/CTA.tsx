@@ -11,9 +11,8 @@ export default function CTA({
 	style,
 	className,
 	children,
-	language,
 	...rest
-}: Sanity.CTA & ComponentProps<'a'> & { language?: string }) {
+}: Sanity.CTA & ComponentProps<'a'>) {
 	const props = {
 		className: cn(stegaClean(style), className) || undefined,
 		children:
@@ -27,7 +26,6 @@ export default function CTA({
 				href={resolveUrl(link.internal, {
 					base: false,
 					params: link.params,
-					language,
 				})}
 				{...props}
 			/>

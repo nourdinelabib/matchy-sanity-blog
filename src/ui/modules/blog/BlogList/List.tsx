@@ -5,11 +5,9 @@ import { useBlogFilters } from '../store'
 
 export default function List({
 	posts,
-	language,
 	...props
 }: {
 	posts: Sanity.BlogPost[]
-	language?: string
 } & React.ComponentProps<'ul'>) {
 	const filtered = filterPosts(posts)
 
@@ -21,7 +19,7 @@ export default function List({
 		<ul {...props}>
 			{filtered?.map((post) => (
 				<li className="anim-fade" key={post._id}>
-					<PostPreview post={post} language={language} />
+					<PostPreview post={post} />
 				</li>
 			))}
 		</ul>

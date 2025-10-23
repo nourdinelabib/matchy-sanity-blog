@@ -5,7 +5,6 @@ import SearchForm from './SearchForm'
 import type { SearchScope } from './store'
 import CTAList from '@/ui/CTAList'
 import moduleProps from '@/lib/moduleProps'
-import { getLangServer } from '@/lib/getLangServer'
 
 export default async function SearchModule({
 	pretitle,
@@ -21,8 +20,6 @@ export default async function SearchModule({
 	scope: SearchScope
 	path: string
 }>) {
-	const language = await getLangServer()
-
 	return (
 		<section className="section space-y-8" {...moduleProps(props)}>
 			{(pretitle || intro) && (
@@ -34,11 +31,7 @@ export default async function SearchModule({
 
 			<div className="mx-auto max-w-screen-sm">
 				<Suspense fallback={<div className="skeleton-[calc(1lh+.5rem+2px)]" />}>
-					<SearchForm
-						language={language}
-						scope={stegaClean(scope)}
-						path={stegaClean(path)}
-					/>
+					<SearchForm scope={stegaClean(scope)} path={stegaClean(path)} />
 				</Suspense>
 			</div>
 

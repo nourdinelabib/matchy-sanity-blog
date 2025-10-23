@@ -15,12 +15,10 @@ export default function SearchForm({
 	className,
 	scope,
 	path,
-	language,
 	...props
 }: Partial<{
 	scope: SearchScope
 	path: string
-	language: string
 }> &
 	React.ComponentProps<'search'>) {
 	const { query, setQuery } = useQuery()
@@ -82,7 +80,7 @@ export default function SearchForm({
 												<a
 													className="group flex gap-2 py-px"
 													href={
-														resolveUrl(result, { base: false, language }) +
+														resolveUrl(result, { base: false }) +
 														`#:~:text=${query}`
 													}
 												>

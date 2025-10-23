@@ -10,9 +10,8 @@ export default async function processMetadata(
 			language?: string
 		}[]
 	},
-	language?: string,
 ): Promise<Metadata> {
-	const url = resolveUrl(page, { language })
+	const url = resolveUrl(page)
 	const { title, description, ogimage, noIndex } = page.metadata
 
 	return {

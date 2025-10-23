@@ -14,7 +14,6 @@ export default function Hero({
 	assets,
 	textAlign: ta = 'center',
 	alignItems: ai,
-	language,
 	...props
 }: Partial<{
 	pretitle: string
@@ -23,7 +22,6 @@ export default function Hero({
 	assets: Sanity.Img[]
 	textAlign: React.CSSProperties['textAlign']
 	alignItems: React.CSSProperties['alignItems']
-	language?: string
 }> &
 	Sanity.Module) {
 	const hasImage = !!assets?.[0]
@@ -97,7 +95,6 @@ export default function Hero({
 
 						<CTAList
 							ctas={ctas}
-							language={language}
 							className={cn('!mt-4', {
 								'justify-start': textAlign === 'left',
 								'justify-center': textAlign === 'center',

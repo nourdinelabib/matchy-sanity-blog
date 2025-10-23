@@ -14,7 +14,6 @@ export default function HeroSaaS({
 	ctas,
 	assets,
 	assetFaded,
-	language,
 	...props
 }: Partial<{
 	pretitle: string
@@ -22,7 +21,6 @@ export default function HeroSaaS({
 	ctas: Sanity.CTA[]
 	assets: Sanity.Img[]
 	assetFaded?: boolean
-	language?: string
 }> &
 	Sanity.Module) {
 	const asset = assets?.[0]
@@ -52,11 +50,7 @@ export default function HeroSaaS({
 						},
 					}}
 				/>
-				<CTAList
-					ctas={ctas}
-					className="!mt-8 justify-center"
-					language={language}
-				/>
+				<CTAList ctas={ctas} className="!mt-8 justify-center" />
 			</div>
 
 			{(() => {

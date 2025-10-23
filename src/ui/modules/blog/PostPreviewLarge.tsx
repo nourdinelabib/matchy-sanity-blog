@@ -5,13 +5,7 @@ import Date from '@/ui/Date'
 import Categories from './Categories'
 import Authors from './Authors'
 
-export default function PostPreviewLarge({
-	post,
-	language,
-}: {
-	post: Sanity.BlogPost
-	language?: string
-}) {
+export default function PostPreviewLarge({ post }: { post: Sanity.BlogPost }) {
 	if (!post) return null
 
 	return (
@@ -36,7 +30,7 @@ export default function PostPreviewLarge({
 				<div className="h2 md:h1">
 					<Link
 						className="group-hover:underline"
-						href={resolveUrl(post, { base: false, language })}
+						href={resolveUrl(post, { base: false })}
 					>
 						<span className="absolute inset-0" />
 						{post.metadata.title}

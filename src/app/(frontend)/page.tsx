@@ -21,8 +21,7 @@ export default async function Page() {
 export async function generateMetadata() {
 	const page = await getPage()
 	if (!page) notFound()
-	const locale = await getLangServer()
-	return processMetadata(page, locale)
+	return processMetadata(page)
 }
 
 export async function generateStaticParams() {
