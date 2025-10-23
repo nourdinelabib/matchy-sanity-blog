@@ -4,6 +4,7 @@ import type {
 	ListItem,
 	Divider,
 } from 'sanity/structure'
+import { apiVersion } from './env'
 
 export const singleton = (
 	S: StructureBuilder,
@@ -39,6 +40,7 @@ export const directory = (
 		.child(
 			S.documentList()
 				.id(`page.${path.replaceAll('/', '-')}`)
+				.apiVersion(apiVersion)
 				.filter(
 					`
 						string::startsWith(metadata.slug.current, $path)

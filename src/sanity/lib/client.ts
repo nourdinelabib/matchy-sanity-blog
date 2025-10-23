@@ -1,5 +1,5 @@
 import { createClient } from 'next-sanity'
-import { projectId, dataset, apiVersion } from '@/sanity/lib/env'
+import { projectId, dataset, apiVersion, adminBasePath } from '@/sanity/lib/env'
 import { dev } from '@/lib/env'
 
 export const client = createClient({
@@ -8,6 +8,6 @@ export const client = createClient({
 	apiVersion,
 	useCdn: !dev,
 	stega: {
-		studioUrl: '/admin',
+		studioUrl: adminBasePath,
 	},
 })

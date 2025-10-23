@@ -1,6 +1,7 @@
 import { defineField, defineType } from 'sanity'
 import { VscCalendar } from 'react-icons/vsc'
 import { count } from '@/lib/utils'
+import { adminBasePath } from '@/sanity/lib/env'
 
 export default defineType({
 	name: 'schedule-module',
@@ -38,7 +39,7 @@ export default defineType({
 						{
 							name: 'grid',
 							previewImageUrl: (schemaType) =>
-								`/admin/thumbnails/${schemaType}.webp`,
+								`${adminBasePath}/thumbnails/${schemaType}.webp`,
 						},
 						{ name: 'list' },
 					],

@@ -1,6 +1,6 @@
-# Matchy Sanity Blog
+# Matchy Blog
 
-A Sanity-powered blog built with Next.js 15, Tailwind CSS, and SanityPress template.
+A Sanity-powered blog built with Next.js 15 and Tailwind CSS.
 
 ## Quick Start
 
@@ -30,10 +30,12 @@ SANITY_API_READ_TOKEN=your_read_token_here
 ```
 
 **To get your Sanity Project ID:**
+
 1. Go to [sanity.io/manage](https://sanity.io/manage)
 2. Find your project and copy the Project ID from the URL or project settings
 
 **To get your Sanity API Read Token:**
+
 1. In your Sanity project dashboard, go to API settings
 2. Create a new token with "Viewer" permissions
 3. Copy the generated token
@@ -70,8 +72,7 @@ After starting the development server, you need to create these documents in you
 - **Frontend**: Next.js 15 (App Router), React 19, TypeScript
 - **Styling**: Tailwind CSS v4
 - **CMS**: Sanity.io
-- **Template**: SanityPress
 
 ## Support
 
-For issues and questions, refer to the [SanityPress documentation](https://sanitypress.dev/docs).
+For issues and questions, please open an issue in this repository.

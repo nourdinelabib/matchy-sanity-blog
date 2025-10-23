@@ -1,3 +1,4 @@
+import { adminBasePath } from '@/sanity/lib/env'
 import { defineField } from 'sanity'
 
 export default defineField({
@@ -36,7 +37,7 @@ export default defineField({
 				{
 					name: 'grid',
 					previewImageUrl: (schemaType) =>
-						`/admin/thumbnails/${schemaType}.webp`,
+						`${adminBasePath}/thumbnails/${schemaType}.webp`,
 				},
 				{ name: 'list' },
 			],

@@ -1,12 +1,11 @@
 'use client'
 
 import pkg from './package.json'
-import { defineConfig, defineField, SlugValidationContext } from 'sanity'
-import { projectId, dataset, apiVersion } from '@/sanity/lib/env'
+import { defineConfig } from 'sanity'
+import { projectId, dataset, apiVersion, adminBasePath } from '@/sanity/lib/env'
 import { structure } from './src/sanity/structure'
 import { presentation } from './src/sanity/presentation'
 import { icon } from '@/sanity/ui/Icon'
-import { InfoWidget } from '@/sanity/ui/InfoWidget'
 import {
 	dashboardTool,
 	projectInfoWidget,
@@ -23,12 +22,11 @@ import resolveUrl from '@/lib/resolveUrl'
 const singletonTypes: string[] = []
 
 export default defineConfig({
-	title: 'SanityPress',
+	title: 'Matchy Blog',
 	icon,
 	projectId,
 	dataset,
-	basePath: '/admin',
-
+	basePath: adminBasePath,
 	plugins: [
 		structure,
 		presentation,
@@ -40,11 +38,7 @@ export default defineConfig({
 		dashboardTool({
 			name: 'info',
 			title: 'Info',
-			widgets: [
-				projectInfoWidget(),
-				projectUsersWidget(),
-				InfoWidget({ version: pkg.version }),
-			],
+			widgets: [projectInfoWidget(), projectUsersWidget()],
 		}),
 		visionTool({ defaultApiVersion: apiVersion }),
 		codeInput(),
