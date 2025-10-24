@@ -1,10 +1,23 @@
 'use client'
 
 import { useEffect, useState, type ComponentProps } from 'react'
-import { DEFAULT_LANG, supportedLanguages } from '@/lib/i18n'
-import { setLangCookie, getLangCookie } from '@/ui/LanguageSwitcher/actions'
+import { DEFAULT_LANG, supportedLanguages, langCookieName } from '@/lib/i18n'
 import { VscGlobe, VscLoading } from 'react-icons/vsc'
 import { cn } from '@/lib/utils'
+
+// Client-side cookie helpers
+function getCookie(name: string): string | null {
+	const value = `; ${document.cookie}`
+	const parts = value.split(`; ${name}=`)
+	if (parts.length === 2) return parts.pop()?.split(';').shift() || null
+	return null
+}
+
+function setCookie(name: string, value: string, days = 365) {
+	const date = new Date()
+	date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
+	document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`
+}
 
 export default function LocaleSwitcher({
 	className,
@@ -15,17 +28,16 @@ export default function LocaleSwitcher({
 
 	useEffect(() => {
 		// Get current language from cookie
-		getLangCookie().then((lang) => {
-			setCurrentLang(lang || DEFAULT_LANG)
-		})
+		const lang = getCookie(langCookieName)
+		setCurrentLang(lang || DEFAULT_LANG)
 	}, [])
 
 	const handleLanguageChange = async () => {
 		setLoading(true)
 		// Toggle between Arabic and English
 		const nextLang = currentLang === 'ar' ? 'en' : 'ar'
-		await setLangCookie(nextLang)
-		// Force a full page reload to apply the new language from cookie
+		setCookie(langCookieName, nextLang)
+		// Force a full page reload to apply the new language
 		window.location.reload()
 	}
 
