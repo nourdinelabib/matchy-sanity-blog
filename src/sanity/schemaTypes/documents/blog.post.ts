@@ -38,6 +38,15 @@ export default defineType({
 				{
 					type: 'reference',
 					to: [{ type: 'blog.category' }],
+					options: {
+						filter: ({ document }: any) => {
+							const currentLanguage = document.language
+							return {
+								filter: '!defined(language) || language == $language',
+								params: { language: currentLanguage },
+							}
+						},
+					},
 				},
 			],
 			group: 'content',

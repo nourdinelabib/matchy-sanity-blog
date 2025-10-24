@@ -44,7 +44,7 @@ export default defineConfig({
 		codeInput(),
 		documentInternationalization({
 			supportedLanguages,
-			schemaTypes: ['page', 'blog.post', 'site'],
+			schemaTypes: ['page', 'blog.post', 'site', 'blog.category'],
 		}),
 	],
 

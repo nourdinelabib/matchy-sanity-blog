@@ -69,6 +69,7 @@ declare global {
 		interface BlogCategory extends SanityDocument {
 			title: string
 			slug: { current: string }
+			readonly language?: string
 		}
 
 		// miscellaneous
