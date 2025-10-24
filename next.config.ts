@@ -2,6 +2,9 @@ import { createClient, groq } from 'next-sanity'
 import { projectId, dataset, apiVersion, basePath } from '@/sanity/lib/env'
 import { BLOG_DIR } from '@/lib/env'
 import type { NextConfig } from 'next'
+import createNextIntlPlugin from 'next-intl/plugin'
+
+const withNextIntl = createNextIntlPlugin()
 
 const client = createClient({
 	projectId,
@@ -10,7 +13,7 @@ const client = createClient({
 	useCdn: true,
 })
 
-export default {
+export default withNextIntl({
 	basePath: basePath,
 	assetPrefix: basePath,
 	distDir: 'out/blog',
@@ -54,4 +57,4 @@ export default {
 	env: {
 		SC_DISABLE_SPEEDY: 'false',
 	},
-} satisfies NextConfig
+})

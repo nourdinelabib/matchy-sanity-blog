@@ -15,7 +15,7 @@ export default function Content({
 	return (
 		<div
 			className={cn(
-				'richtext mx-auto w-full space-y-6 [&>:first-child]:!mt-0',
+				'richtext mx-auto w-full space-y-6 [&>:first-child]:mt-0!',
 				className,
 			)}
 		>
@@ -35,7 +35,7 @@ export default function Content({
 						code: Code,
 						'custom-html': ({ value }) => (
 							<CustomHTML
-								className="has-[table]:md:[grid-column:bleed] has-[table]:md:mx-auto"
+								className="has-[table]:md:col-[bleed] has-[table]:md:mx-auto"
 								{...value}
 							/>
 						),

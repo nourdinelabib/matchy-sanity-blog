@@ -80,8 +80,12 @@ export default defineType({
 		}),
 	],
 	preview: {
-		prepare: () => ({
+		select: {
+			language: 'language',
+		},
+		prepare: ({ language }) => ({
 			title: 'Site settings',
+			subtitle: language ? `[${language}]` : undefined,
 		}),
 	},
 })

@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { cn, slug } from '@/lib/utils'
 import { stegaClean } from 'next-sanity'
+import { useTranslations } from 'next-intl'
 import css from './TableOfContents.module.css'
 
 export default function TableOfContents({
@@ -13,6 +14,8 @@ export default function TableOfContents({
 		style: string
 	}[]
 }) {
+	const t = useTranslations('ui')
+
 	useEffect(() => {
 		if (typeof document === 'undefined') return
 
@@ -56,7 +59,7 @@ export default function TableOfContents({
 			open
 		>
 			<summary className="font-bold lg:group-open:after:invisible">
-				Table of Contents
+				{t('tableOfContents')}
 			</summary>
 
 			<ol className="anim-fade-to-b mt-2 leading-tight">

@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import PostPreview from '../PostPreview'
 import { useBlogFilters } from '../store'
 
@@ -10,9 +11,9 @@ export default function List({
 	posts: Sanity.BlogPost[]
 } & React.ComponentProps<'ul'>) {
 	const filtered = filterPosts(posts)
-
+	const t = useTranslations('ui')
 	if (!filtered.length) {
-		return <div>No posts found...</div>
+		return <div>{t('noPostsFound')}</div>
 	}
 
 	return (

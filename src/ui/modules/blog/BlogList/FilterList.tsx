@@ -4,8 +4,10 @@ import { Suspense } from 'react'
 import Filter from './Filter'
 import css from './FilterList.module.css'
 import { cn } from '@/lib/utils'
+import { getTranslations } from 'next-intl/server'
 
 export default async function FilterList() {
+	const t = await getTranslations('ui')
 	const categories = await fetchSanityLive<Sanity.BlogCategory[]>({
 		query: groq`*[
 			_type == 'blog.category' &&
@@ -17,7 +19,7 @@ export default async function FilterList() {
 
 	return (
 		<fieldset>
-			<legend className="sr-only">Filter by category</legend>
+			<legend className="sr-only">{t('filterByCategory')}</legend>
 
 			<div
 				className={cn(
@@ -26,7 +28,7 @@ export default async function FilterList() {
 				)}
 			>
 				<Suspense>
-					<Filter label="All" />
+					<Filter label={t('all')} />
 
 					{categories?.map((category, key) => (
 						<Filter

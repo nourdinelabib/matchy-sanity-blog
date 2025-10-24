@@ -8,6 +8,7 @@ import Footer from '@/ui/footer'
 import VisualEditingControls from '@/ui/VisualEditingControls'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { NextIntlClientProvider } from 'next-intl'
 import '@/styles/app.css'
 import { getLangServer } from '@/lib/getLangServer'
 
@@ -22,17 +23,19 @@ export default async function RootLayout({
 		<Root lang={lang}>
 			{/* <GoogleTagManager gtmId="" /> */}
 			<body className="bg-canvas text-ink antialiased">
-				<NuqsAdapter>
-					<SkipToContent />
-					<Announcement />
-					<Header />
-					<main id="main-content" role="main" tabIndex={-1}>
-						{children}
-					</main>
-					<Footer />
+				<NextIntlClientProvider>
+					<NuqsAdapter>
+						<SkipToContent />
+						<Announcement />
+						<Header />
+						<main id="main-content" role="main" tabIndex={-1}>
+							{children}
+						</main>
+						<Footer />
 
-					<VisualEditingControls />
-				</NuqsAdapter>
+						<VisualEditingControls />
+					</NuqsAdapter>
+				</NextIntlClientProvider>
 				<Analytics />
 				<SpeedInsights />
 			</body>
