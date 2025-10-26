@@ -5,5 +5,34 @@
 		"filterByCategory": "Filter by category",
 		"all": "All",
 		"noPostsFound": "No posts found..."
+	},
+	"layout": {
+		"main": {
+			"nav": {
+				"our-clients": "Our Clients",
+				"features": "Features",
+				"how-it-works": "How It Works",
+				"testimonials": "Testimonials",
+				"pricing": "Pricing"
+			},
+			"footer": {
+				"quick-links": {
+					"title": "Quick Links"
+				},
+				"contact": {
+					"title": "Contact"
+				},
+				"address": {
+					"address": "Riyadh, Saudi Arabia"
+				},
+				"saudiBusiness": "Certified by Saudi Business",
+				"paymentMethods": "Payment Methods",
+				"copyright": "© {year} M4tchy. All rights reserved.",
+				"resources": {
+					"privacy-policy": "Privacy Policy",
+					"terms-of-service": "Terms of Service"
+				}
+			}
+		}
 	}
 }

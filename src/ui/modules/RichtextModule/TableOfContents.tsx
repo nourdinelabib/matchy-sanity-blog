@@ -23,16 +23,15 @@ export default function TableOfContents({
 			document.querySelector('body > header')?.clientHeight || 0
 
 		headings?.forEach(({ text }) => {
-			const target = document.getElementById(slug(text))
+			const id = slug(text)
+			const target = document.getElementById(id)
 
 			if (!target) return
 
 			const observer = new IntersectionObserver(
 				(entries) => {
 					entries.forEach((entry) => {
-						const tocItem = document.querySelector(
-							`[data-toc-item="${slug(text)}"]`,
-						)
+						const tocItem = document.querySelector(`[data-toc-item="${id}"]`)
 
 						if (entry.isIntersecting) {
 							tocItem?.classList.add(css.inView)
@@ -63,27 +62,30 @@ export default function TableOfContents({
 			</summary>
 
 			<ol className="anim-fade-to-b mt-2 leading-tight">
-				{headings?.map(({ text, style }, key) => (
-					<li
-						className="border-ink/10 border-s transition-all"
-						data-toc-item={slug(text)}
-						key={key}
-					>
-						<a
-							className={cn(
-								'block py-1 hover:underline',
-								stegaClean(style) == 'h2' && 'ps-4',
-								stegaClean(style) == 'h3' && 'ps-6',
-								stegaClean(style) == 'h4' && 'ps-8',
-								stegaClean(style) == 'h5' && 'ps-10',
-								stegaClean(style) == 'h6' && 'ps-12',
-							)}
-							href={`#${slug(text)}`}
+				{headings?.map(({ text, style }, key) => {
+					const id = slug(text)
+					return (
+						<li
+							className="border-ink/10 border-s transition-all"
+							data-toc-item={id}
+							key={key}
 						>
-							{text}
-						</a>
-					</li>
-				))}
+							<a
+								className={cn(
+									'block py-1 hover:underline',
+									stegaClean(style) == 'h2' && 'ps-4',
+									stegaClean(style) == 'h3' && 'ps-6',
+									stegaClean(style) == 'h4' && 'ps-8',
+									stegaClean(style) == 'h5' && 'ps-10',
+									stegaClean(style) == 'h6' && 'ps-12',
+								)}
+								href={`#${id}`}
+							>
+								{text}
+							</a>
+						</li>
+					)
+				})}
 			</ol>
 		</details>
 	)

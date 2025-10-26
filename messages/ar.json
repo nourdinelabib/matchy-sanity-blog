@@ -5,5 +5,34 @@
 		"filterByCategory": "تصفية حسب الفئة",
 		"all": "الكل",
 		"noPostsFound": "لم يتم العثور على مقالات..."
+	},
+	"layout": {
+		"main": {
+			"nav": {
+				"our-clients": "عملاؤنا",
+				"features": "المميزات",
+				"how-it-works": "كيف يعمل",
+				"testimonials": "آراء العملاء",
+				"pricing": "الأسعار"
+			},
+			"footer": {
+				"quick-links": {
+					"title": "روابط سريعة"
+				},
+				"contact": {
+					"title": "التواصل"
+				},
+				"address": {
+					"address": "الرياض، المملكة العربية السعودية"
+				},
+				"saudiBusiness": "معتمد من الأعمال السعودية",
+				"paymentMethods": "طرق الدفع",
+				"copyright": "© {year} ماتشي. جميع الحقوق محفوظة.",
+				"resources": {
+					"privacy-policy": "سياسة الخصوصية",
+					"terms-of-service": "شروط الخدمة"
+				}
+			}
+		}
 	}
 }

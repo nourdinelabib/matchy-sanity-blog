@@ -3,4 +3,5 @@
 	"editor.tabSize": 2,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
+	"i18n-ally.localesPaths": ["messages", "src/i18n"]
 }

@@ -1,50 +1,161 @@
-import { getSite } from '@/sanity/lib/queries'
-import Navigation from './Navigation'
-import Social from '@/ui/Social'
-import { PortableText } from 'next-sanity'
+'use client'
+
+import { useTranslations, useLocale } from 'next-intl'
 import Link from 'next/link'
-import { Img } from '@/ui/Img'
-import { getLangServer } from '@/lib/getLangServer'
+import LinkedIn from '@/ui/icons/LinkedIn'
+import Youtube from '@/ui/icons/Youtube'
+import { Mada } from '@/ui/icons/Mada'
+import { Master } from '@/ui/icons/Master'
+import { Visa } from '@/ui/icons/Visa'
+import { SaudiBusiness } from '@/ui/icons/SaudiBusiness'
 
-export default async function Footer() {
-	const lang = await getLangServer()
-	const { title, blurb, logo, copyright } = await getSite(lang)
+export default function Footer() {
+	const t = useTranslations('layout.main')
+	const locale = useLocale()
+	const mainWebsiteUrl =
+		process.env.NEXT_PUBLIC_MAIN_WEBSITE_URL || 'https://m4tchy.com'
 
-	const logoImage = logo?.image?.light || logo?.image?.default
+	// Build base URL with locale
+	const baseUrl = `${mainWebsiteUrl}/${locale}`
+
+	// Navigation links to main website with locale
+	const navigationLinks = [
+		{
+			href: `${baseUrl}/#our-clients`,
+			translationKey: 'nav.our-clients',
+			id: 'our-clients',
+		},
+		{
+			href: `${baseUrl}/#features`,
+			translationKey: 'nav.features',
+			id: 'features',
+		},
+		{
+			href: `${baseUrl}/#how-it-works`,
+			translationKey: 'nav.how-it-works',
+			id: 'how-it-works',
+		},
+		{
+			href: `${baseUrl}/#testimonials`,
+			translationKey: 'nav.testimonials',
+			id: 'testimonials',
+		},
+		{
+			href: `${baseUrl}/pricing`,
+			translationKey: 'nav.pricing',
+			id: 'pricing',
+		},
+	]
 
 	return (
-		<footer className="text-ink bg-white" role="contentinfo">
-			<div className="section flex flex-wrap justify-between gap-x-12 gap-y-8 max-sm:flex-col">
-				<div className="flex flex-col gap-3 self-stretch">
-					<Link className="h3 md:h2 max-w-max" href="/">
-						{logoImage ? (
-							<Img
-								className="max-h-[1.5em] w-auto"
-								image={logoImage}
-								alt={logo?.name || title}
-							/>
-						) : (
-							title
-						)}
-					</Link>
+		<footer className="bg-white shadow-[0_-1px_2px_0px_rgba(0,0,0,0.05)]">
+			<div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+				<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+					{/* Quick Links */}
+					<div className="flex flex-col items-center md:items-start">
+						<h3 className="mb-4 text-lg font-semibold">
+							{t('footer.quick-links.title')}
+						</h3>
+						<ul className="space-y-2 text-center md:ltr:text-left md:rtl:text-right">
+							{navigationLinks.map((link) => (
+								<li key={link.href}>
+									<Link
+										href={link.href}
+										className="text-gray-600 hover:text-gray-900"
+									>
+										{t(link.translationKey)}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
 
-					{blurb && (
-						<div className="max-w-sm text-sm text-balance">
-							<PortableText value={blurb} />
+					{/* Contact Section */}
+					<div className="flex flex-col items-center md:items-start">
+						<h3 className="mb-4 text-lg font-semibold">
+							{t('footer.contact.title')}
+						</h3>
+						<ul className="space-y-2 text-center md:ltr:text-left md:rtl:text-right">
+							<li className="text-gray-600">
+								<Link
+									href="mailto:sales@m4tchy.com"
+									className="hover:underline"
+								>
+									sales@m4tchy.com
+								</Link>
+							</li>
+							<li className="text-gray-600">{t('footer.address.address')}</li>
+						</ul>
+
+						{/* Social Media Icons */}
+						<div className="mt-4 flex items-center space-x-2 rtl:space-x-reverse">
+							<Link
+								href="https://www.linkedin.com/company/jazieel/"
+								referrerPolicy="no-referrer"
+								target="_blank"
+								className="text-gray-600 hover:text-gray-900"
+							>
+								<LinkedIn className="w-6 [&>path]:fill-gray-800" />
+							</Link>
+							<Link
+								href="https://www.youtube.com/@M4tchy"
+								referrerPolicy="no-referrer"
+								target="_blank"
+								className="text-gray-600 hover:text-gray-900"
+							>
+								<Youtube className="w-6 [&>path]:fill-gray-800" />
+							</Link>
 						</div>
-					)}
+					</div>
 
-					<Social className="mb-auto -ml-2" />
+					{/* Saudi Business & Payment Methods */}
+					<div>
+						<Link
+							href="https://eauthenticate.saudibusiness.gov.sa/certificate-details/0000148215"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="flex flex-col-reverse items-center justify-center gap-2 md:flex-row md:justify-start"
+						>
+							<SaudiBusiness className="rounded-md border border-gray-200 p-1 shadow-md" />
+							<p className="font-bold">{t('footer.saudiBusiness')}</p>
+						</Link>
+
+						<div className="flex flex-col items-center md:items-start">
+							<h3 className="mt-8 text-lg font-semibold">
+								{t('footer.paymentMethods')}
+							</h3>
+							<div className="mt-2 flex items-center gap-1">
+								<Mada />
+								<Master />
+								<Visa />
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<Navigation />
+				{/* Copyright & Links */}
+				<div className="mt-8 border-t border-gray-200 pt-8">
+					<div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+						<p className="text-gray-600">
+							{t('footer.copyright', { year: '2025' })}
+						</p>
+						<div className="flex gap-4">
+							<Link
+								href={`${baseUrl}/legal/privacy-policy`}
+								className="text-gray-600 hover:text-gray-900"
+							>
+								{t('footer.resources.privacy-policy')}
+							</Link>
+							<Link
+								href={`${baseUrl}/legal/terms-of-service`}
+								className="text-gray-600 hover:text-gray-900"
+							>
+								{t('footer.resources.terms-of-service')}
+							</Link>
+						</div>
+					</div>
+				</div>
 			</div>
-
-			{copyright && (
-				<div className="border-ink/20 mx-auto flex max-w-screen-xl flex-wrap justify-center gap-x-6 gap-y-2 border-t p-4 pb-[max(1rem,env(safe-area-inset-bottom))] text-sm [&_a:hover]:underline">
-					<PortableText value={copyright} />
-				</div>
-			)}
 		</footer>
 	)
 }

@@ -1,5 +1,6 @@
 import { twMerge } from 'tailwind-merge'
 import { clsx, type ClassValue } from 'clsx'
+import slugify from 'slugify'
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
@@ -37,11 +38,12 @@ export const { format: formatCurrency } = new Intl.NumberFormat('en-US', {
 })
 
 export function slug(str: string) {
-	return str
-		.toLowerCase()
-		.replace(/[\s\W]+/g, '-')
-		.replace(/^-+/, '')
-		.replace(/-+$/, '')
+	return slugify(str, {
+		lower: true,
+		strict: true,
+		locale: 'en', // Transliterate to English alphabet
+		remove: /[*+~.()'"!:@]/g, // Remove special characters
+	})
 }
 
 export function getBlockText(
@@ -60,6 +62,6 @@ export function getBlockText(
 	)
 }
 
-export function langDir(lang: string){
-	return lang === 'ar' ? 'rtl': 'ltr'
+export function langDir(lang: string) {
+	return lang === 'ar' ? 'rtl' : 'ltr'
 }
