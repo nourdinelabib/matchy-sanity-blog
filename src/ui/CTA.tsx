@@ -1,10 +1,11 @@
-import Link from 'next/link'
 import resolveUrl from '@/lib/resolveUrl'
 import { stegaClean } from 'next-sanity'
 import { cn } from '@/lib/utils'
 import type { ComponentProps } from 'react'
+import { Link } from '@/i18n/navigation'
+import { getLocale } from 'next-intl/server'
 
-export default function CTA({
+export default async function CTA({
 	_type,
 	_key,
 	link,
@@ -13,6 +14,7 @@ export default function CTA({
 	children,
 	...rest
 }: Sanity.CTA & ComponentProps<'a'>) {
+	const locale = await getLocale()
 	const props = {
 		className: cn(stegaClean(style), className) || undefined,
 		children:
@@ -23,9 +25,13 @@ export default function CTA({
 	if (link?.type === 'internal' && link.internal)
 		return (
 			<Link
-				href={resolveUrl(link.internal, {
-					params: link.params,
-				})}
+				href={resolveUrl(
+					link.internal,
+					{
+						params: link.params,
+					},
+					locale,
+				)}
 				{...props}
 			/>
 		)

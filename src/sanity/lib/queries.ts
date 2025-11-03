@@ -145,8 +145,8 @@ export const TRANSLATIONS_QUERY = groq`
 `
 
 export async function getSite(lang?: string) {
-	const { DEFAULT_LANG } = await import('@/lib/i18n')
-	const language = lang || DEFAULT_LANG
+	const { routing } = await import('@/i18n/routing')
+	const language = lang || routing.defaultLocale
 
 	const site = await fetchSanityLive<Sanity.Site>({
 		query: groq`

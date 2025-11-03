@@ -1,12 +1,13 @@
 import { Img } from '@/ui/Img'
-import Link from 'next/link'
 import resolveUrl from '@/lib/resolveUrl'
 import Authors from './Authors'
 import Date from '@/ui/Date'
 import Categories from './Categories'
 import { cn } from '@/lib/utils'
+import { Link } from '@/i18n/navigation'
+import { getLocale } from 'next-intl/server'
 
-export default function PostPreview({
+export default async function PostPreview({
 	post,
 	skeleton,
 }: {
@@ -14,6 +15,8 @@ export default function PostPreview({
 	skeleton?: boolean
 }) {
 	if (!post && !skeleton) return null
+
+	const locale = await getLocale()
 
 	return (
 		<div className="group relative isolate flex h-full flex-col space-y-2">
@@ -33,7 +36,10 @@ export default function PostPreview({
 			</figure>
 
 			<div className={cn('h4', skeleton && 'skeleton-2')}>
-				<Link className="group-hover:underline" href={resolveUrl(post)}>
+				<Link
+					className="group-hover:underline"
+					href={resolveUrl(post, {}, locale)}
+				>
 					<span className="absolute inset-0" />
 					{post?.metadata.title}
 				</Link>

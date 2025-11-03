@@ -11,18 +11,23 @@ import {
 	TRANSLATIONS_QUERY,
 } from '@/sanity/lib/queries'
 import errors from '@/lib/errors'
-import { getLangServer } from '@/lib/getLangServer'
+import { setRequestLocale } from 'next-intl/server'
+import { routing } from '@/i18n/routing'
 
 export default async function Page({ params }: Props) {
+	const { locale } = await params
+	setRequestLocale(locale)
+
 	const post = await getPost(await params)
 	if (!post) notFound()
 	return <Modules modules={post.modules} post={post} />
 }
 
 export async function generateMetadata({ params }: Props) {
+	const { locale } = await params
 	const post = await getPost(await params)
 	if (!post) notFound()
-	return processMetadata(post)
+	return processMetadata(post, locale)
 }
 
 export async function generateStaticParams() {
@@ -32,13 +37,18 @@ export async function generateStaticParams() {
 		}`,
 	)
 
-	return posts.map(({ slug }) => ({
-		slug: [slug],
-	}))
+	return posts.reduce<{ slug: string[]; locale: string }[]>((acc, { slug }) => {
+		routing.locales.forEach((locale) => {
+			acc.push({
+				slug: [slug],
+				locale,
+			})
+		})
+		return acc
+	}, [])
 }
 
-async function getPost({ slug }: Params) {
-	const locale = await getLangServer()
+async function getPost({ slug, locale }: Params & { locale: string }) {
 	const blogTemplateExists = await fetchSanityLive<boolean>({
 		query: groq`count(*[_type == 'global-module' && path == '${BLOG_DIR}/']) > 0`,
 	})
@@ -92,5 +102,5 @@ async function getPost({ slug }: Params) {
 type Params = { slug: string[] }
 
 type Props = {
-	params: Promise<Params>
+	params: Promise<{ locale: string } & Params>
 }

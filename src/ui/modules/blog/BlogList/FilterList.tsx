@@ -4,13 +4,11 @@ import { Suspense } from 'react'
 import Filter from './Filter'
 import css from './FilterList.module.css'
 import { cn } from '@/lib/utils'
-import { getTranslations } from 'next-intl/server'
-import { cookies } from 'next/headers'
-import { DEFAULT_LANG, langCookieName } from '@/lib/i18n'
+import { getLocale, getTranslations } from 'next-intl/server'
 
 export default async function FilterList() {
 	const t = await getTranslations('ui')
-	const lang = (await cookies()).get(langCookieName)?.value ?? DEFAULT_LANG
+	const lang = await getLocale()
 	const categories = await fetchSanityLive<Sanity.BlogCategory[]>({
 		query: groq`*[
 			_type == 'blog.category' &&

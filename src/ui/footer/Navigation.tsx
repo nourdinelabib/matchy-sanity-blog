@@ -1,10 +1,10 @@
 import { getSite } from '@/sanity/lib/queries'
 import CTA from '@/ui/CTA'
 import { stegaClean } from 'next-sanity'
-import { getLangServer } from '@/lib/getLangServer'
+import { getLocale } from 'next-intl/server'
 
 export default async function Menu() {
-	const lang = await getLangServer()
+	const lang = await getLocale()
 	const { footerMenu } = await getSite(lang)
 
 	return (

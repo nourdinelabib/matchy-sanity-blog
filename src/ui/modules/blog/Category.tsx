@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import { BLOG_DIR } from '@/lib/env'
 import { cn } from '@/lib/utils'
+import { Link } from '@/i18n/navigation'
 
 export default function Category({
 	value,

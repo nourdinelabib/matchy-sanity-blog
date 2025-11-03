@@ -1,8 +1,8 @@
-import Link from 'next/link'
 import { Img } from '@/ui/Img'
 import { GoPerson } from 'react-icons/go'
 import { BLOG_DIR } from '@/lib/env'
 import { cn } from '@/lib/utils'
+import { Link } from '@/i18n/navigation'
 
 export default function Authors({
 	authors,

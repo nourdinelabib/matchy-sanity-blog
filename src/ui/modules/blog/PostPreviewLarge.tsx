@@ -1,12 +1,18 @@
-import Link from 'next/link'
 import resolveUrl from '@/lib/resolveUrl'
 import { Img } from '@/ui/Img'
 import Date from '@/ui/Date'
 import Categories from './Categories'
 import Authors from './Authors'
+import { Link } from '@/i18n/navigation'
+import { getLocale } from 'next-intl/server'
 
-export default function PostPreviewLarge({ post }: { post: Sanity.BlogPost }) {
+export default async function PostPreviewLarge({
+	post,
+}: {
+	post: Sanity.BlogPost
+}) {
 	if (!post) return null
+	const locale = await getLocale()
 
 	return (
 		<div className="group relative isolate grid items-center gap-x-8 gap-y-4 md:grid-cols-2">
@@ -28,7 +34,10 @@ export default function PostPreviewLarge({ post }: { post: Sanity.BlogPost }) {
 
 			<div className="mx-auto max-w-lg space-y-4">
 				<div className="h2 md:h1">
-					<Link className="group-hover:underline" href={resolveUrl(post)}>
+					<Link
+						className="group-hover:underline"
+						href={resolveUrl(post, {}, locale)}
+					>
 						<span className="absolute inset-0" />
 						{post.metadata.title}
 					</Link>

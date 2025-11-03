@@ -4,7 +4,11 @@
 		"readTime": "وقت القراءة: {minutes, plural, one {دقيقة} two {دقيقتان} few {# دقائق} other {# دقيقة}}",
 		"filterByCategory": "تصفية حسب الفئة",
 		"all": "الكل",
-		"noPostsFound": "لم يتم العثور على مقالات..."
+		"noPostsFound": "لم يتم العثور على مقالات...",
+		"localeSwitcher": {
+			"language": "English",
+			"switchTo": "تغيير اللغة"
+		}
 	},
 	"layout": {
 		"main": {

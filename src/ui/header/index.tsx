@@ -1,6 +1,5 @@
 import { getSite } from '@/sanity/lib/queries'
 import Wrapper from './Wrapper'
-import Link from 'next/link'
 import { Img } from '@/ui/Img'
 import Navigation from './Navigation'
 import CTAList from '@/ui/CTAList'
@@ -8,10 +7,13 @@ import Toggle from './Toggle'
 import LocaleSwitcher from '@/ui/LocaleSwitcher'
 import { cn } from '@/lib/utils'
 import css from './Header.module.css'
-import { getLangServer } from '@/lib/getLangServer'
+import { getLocale } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
+import { Suspense } from 'react'
+import { VscLoading } from 'react-icons/vsc'
 
 export default async function Header() {
-	const lang = await getLangServer()
+	const lang = await getLocale()
 	const { title, logo, ctas } = await getSite(lang)
 
 	const logoImage = logo?.image?.dark || logo?.image?.default
@@ -21,7 +23,7 @@ export default async function Header() {
 			<div
 				className={cn(
 					css.header,
-					'mx-auto grid max-w-screen-xl items-center gap-x-6 p-4',
+					'mx-auto grid max-w-7xl items-center gap-x-6 p-4',
 				)}
 			>
 				<div className="[grid-area:logo]">
@@ -48,7 +50,9 @@ export default async function Header() {
 					className="max-md:header-closed:hidden [grid-area:ctas] max-md:*:w-full md:ms-auto"
 				/>
 
-				<LocaleSwitcher className="max-md:header-closed:hidden [grid-area:locale]" />
+				<Suspense fallback={<VscLoading />}>
+					<LocaleSwitcher className="max-md:header-closed:hidden [grid-area:locale]" />
+				</Suspense>
 
 				<Toggle />
 			</div>

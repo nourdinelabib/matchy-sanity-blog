@@ -1,21 +1,13 @@
-import {
-	NextResponse,
-	type NextRequest,
-	type MiddlewareConfig,
-} from 'next/server'
-import { DEFAULT_LANG, langCookieName } from './lib/i18n'
+import { NextRequest, type MiddlewareConfig } from 'next/server'
+import createMiddleware from 'next-intl/middleware'
+import { routing } from './i18n/routing'
 
-export default async function (request: NextRequest) {
-	// If no language cookie is set, set it to the default language
-	if (!request.cookies.has(langCookieName)) {
-		const response = NextResponse.next()
-		response.cookies.set(langCookieName, DEFAULT_LANG)
-		return response
-	}
+const handleI18nRouting = createMiddleware(routing)
 
-	return NextResponse.next()
+export default function middleware(request: NextRequest) {
+	console.log('middleware', request.nextUrl.pathname)
+	return handleI18nRouting(request)
 }
-
 export const config: MiddlewareConfig = {
-	matcher: ['/((?!favicon.ico|_next|api|admin).*)'],
+	matcher: '/((?!api|admin|trpc|_next|_vercel|.*\\..*).*)',
 }

@@ -4,7 +4,11 @@
 		"readTime": "Read time: {minutes, plural, one {# minute} other {# minutes}}",
 		"filterByCategory": "Filter by category",
 		"all": "All",
-		"noPostsFound": "No posts found..."
+		"noPostsFound": "No posts found...",
+		"localeSwitcher": {
+			"language": "العربية",
+			"switchTo": "Switch language"
+		}
 	},
 	"layout": {
 		"main": {

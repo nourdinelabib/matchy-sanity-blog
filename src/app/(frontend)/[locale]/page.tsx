@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import Modules from '@/ui/modules'
 import processMetadata from '@/lib/processMetadata'
-import { client } from '@/sanity/lib/client'
 import { groq } from 'next-sanity'
 import { fetchSanityLive } from '@/sanity/lib/fetch'
 import {
@@ -10,36 +9,38 @@ import {
 	TRANSLATIONS_QUERY,
 } from '@/sanity/lib/queries'
 import errors from '@/lib/errors'
-import { getLangServer } from '@/lib/getLangServer'
+import { routing } from '@/i18n/routing'
+import { setRequestLocale } from 'next-intl/server'
 
-export default async function Page() {
-	const page = await getPage()
+export default async function Page({
+	params,
+}: {
+	params: Promise<{ locale: string }>
+}) {
+	const { locale } = await params
+	setRequestLocale(locale)
+
+	const page = await getPage({ locale })
 	if (!page) notFound()
 	return <Modules modules={page.modules} page={page} />
 }
 
-export async function generateMetadata() {
-	const page = await getPage()
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ locale: string }>
+}) {
+	const { locale } = await params
+	const page = await getPage({ locale })
 	if (!page) notFound()
-	return processMetadata(page)
+	return processMetadata(page, locale)
 }
 
-export async function generateStaticParams() {
-	const slugs = await client.fetch<{ slug: string }[]>(
-		groq`*[
-			_type == 'page'
-			&& defined(metadata.slug.current)
-			&& !(metadata.slug.current in ['index'])
-		]{
-			'slug': metadata.slug.current
-		}`,
-	)
-
-	return slugs.map(({ slug }) => ({ slug: slug.split('/') }))
+export function generateStaticParams() {
+	return routing.locales.map((locale) => ({ locale }))
 }
 
-async function getPage() {
-	const locale = await getLangServer()
+async function getPage({ locale }: { locale: string }) {
 	const slug = 'blog'
 
 	const page = await fetchSanityLive<Sanity.Page>({

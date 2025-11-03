@@ -1,5 +1,3 @@
-import { cookies } from 'next/headers'
-import { DEFAULT_LANG, langCookieName } from '@/lib/i18n'
 import { fetchSanityLive } from '@/sanity/lib/fetch'
 import { groq } from 'next-sanity'
 import { IMAGE_QUERY } from '@/sanity/lib/queries'
@@ -10,6 +8,7 @@ import PostPreviewLarge from '../PostPreviewLarge'
 import FilterList from '../BlogList/FilterList'
 import PostPreview from '../PostPreview'
 import Paginated from './Paginated'
+import { getLocale } from 'next-intl/server'
 
 export default async function BlogFrontpage({
 	mainPost,
@@ -20,7 +19,7 @@ export default async function BlogFrontpage({
 	showFeaturedPostsFirst: boolean
 	itemsPerPage: number
 }>) {
-	const lang = (await cookies()).get(langCookieName)?.value ?? DEFAULT_LANG
+	const lang = await getLocale()
 
 	const posts = await fetchSanityLive<Sanity.BlogPost[]>({
 		query: groq`

@@ -14,10 +14,13 @@ import {
 import { vercelWidget } from 'sanity-plugin-dashboard-widget-vercel'
 import { visionTool } from '@sanity/vision'
 import { codeInput } from '@sanity/code-input'
-import { supportedLanguages } from '@/lib/i18n'
-import { documentInternationalization } from '@sanity/document-internationalization'
+import {
+	documentInternationalization,
+	Language,
+} from '@sanity/document-internationalization'
 import { schemaTypes } from './src/sanity/schemaTypes'
 import resolveUrl from '@/lib/resolveUrl'
+import { routing, supportedLanguagesTitles } from '@/i18n/routing'
 
 const singletonTypes: string[] = []
 
@@ -43,7 +46,10 @@ export default defineConfig({
 		visionTool({ defaultApiVersion: apiVersion }),
 		codeInput(),
 		documentInternationalization({
-			supportedLanguages,
+			supportedLanguages: routing.locales.map((locale) => ({
+				id: locale,
+				title: supportedLanguagesTitles[locale],
+			})),
 			schemaTypes: ['page', 'blog.post', 'site', 'blog.category'],
 		}),
 	],

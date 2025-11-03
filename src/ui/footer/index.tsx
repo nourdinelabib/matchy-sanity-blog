@@ -1,13 +1,13 @@
 'use client'
 
 import { useTranslations, useLocale } from 'next-intl'
-import Link from 'next/link'
 import LinkedIn from '@/ui/icons/LinkedIn'
 import Youtube from '@/ui/icons/Youtube'
 import { Mada } from '@/ui/icons/Mada'
 import { Master } from '@/ui/icons/Master'
 import { Visa } from '@/ui/icons/Visa'
 import { SaudiBusiness } from '@/ui/icons/SaudiBusiness'
+import { Link } from '@/i18n/navigation'
 
 export default function Footer() {
 	const t = useTranslations('layout.main')

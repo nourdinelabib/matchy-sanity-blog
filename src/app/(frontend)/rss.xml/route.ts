@@ -5,7 +5,7 @@ import resolveUrl from '@/lib/resolveUrl'
 import { Feed } from 'feed'
 import { escapeHTML, toHTML } from '@portabletext/to-html'
 import { urlFor } from '@/sanity/lib/image'
-import { DEFAULT_LANG } from '@/lib/i18n'
+import { routing } from '@/i18n/routing'
 
 export async function GET() {
 	const blogSlug = BLOG_DIR || 'index'
@@ -52,7 +52,7 @@ export async function GET() {
 		id: url,
 		copyright,
 		favicon: process.env.NEXT_PUBLIC_BASE_URL + '/favicon.ico',
-		language: DEFAULT_LANG,
+		language: routing.defaultLocale,
 		generator: 'https://www.matchy.hr',
 	})
 

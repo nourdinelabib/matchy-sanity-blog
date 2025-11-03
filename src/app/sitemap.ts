@@ -1,6 +1,6 @@
 import { fetchSanityLive } from '@/sanity/lib/fetch'
 import { groq } from 'next-sanity'
-import { DEFAULT_LANG } from '@/lib/i18n'
+import { routing } from '@/i18n/routing'
 import { BLOG_DIR } from '@/lib/env'
 import type { MetadataRoute } from 'next'
 
@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		}`,
 		params: {
 			baseUrl: process.env.NEXT_PUBLIC_BASE_URL + '/',
-			defaultLang: DEFAULT_LANG,
+			defaultLang: routing.defaultLocale,
 		},
 	})
 

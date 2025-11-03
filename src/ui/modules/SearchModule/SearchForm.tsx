@@ -7,6 +7,7 @@ import Loading from '@/ui/Loading'
 import resolveUrl from '@/lib/resolveUrl'
 import SearchGoogle from './SearchGoogle'
 import css from './SearchForm.module.css'
+import { useLocale } from 'next-intl'
 
 /**
  * @note Remember to wrap this component in a Suspense
@@ -23,10 +24,10 @@ export default function SearchForm({
 	React.ComponentProps<'search'>) {
 	const { query, setQuery } = useQuery()
 	const { loading, setLoading, results, setResults } = searchStore()
-
+	const locale = useLocale()
 	return (
 		<search className={cn(css.root, 'relative', className)} {...props}>
-			<label className="input focus-within:border-ink/50 relative z-[2] flex items-center gap-2">
+			<label className="input focus-within:border-ink/50 relative z-2 flex items-center gap-2">
 				<VscSearch />
 
 				<input
@@ -56,7 +57,7 @@ export default function SearchForm({
 				<div
 					className={cn(
 						css.results,
-						'anim-fade-to-b absolute inset-x-0 top-full z-[1]',
+						'anim-fade-to-b absolute inset-x-0 top-full z-1',
 					)}
 				>
 					<div className="frosted-glass bg-canvas border-ink/10 mt-1 max-h-[20em] space-y-2 overflow-y-auto rounded border py-2 shadow-md *:px-3">
@@ -79,7 +80,9 @@ export default function SearchForm({
 											<li key={result._id}>
 												<a
 													className="group flex gap-2 py-px"
-													href={resolveUrl(result) + `#:~:text=${query}`}
+													href={
+														resolveUrl(result, {}, locale) + `#:~:text=${query}`
+													}
 												>
 													<span className="line-clamp-1 grow group-hover:underline">
 														{result.metadata.title}
