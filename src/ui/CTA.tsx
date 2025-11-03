@@ -3,9 +3,9 @@ import { stegaClean } from 'next-sanity'
 import { cn } from '@/lib/utils'
 import type { ComponentProps } from 'react'
 import { Link } from '@/i18n/navigation'
-import { getLocale } from 'next-intl/server'
+import { useLocale } from 'next-intl'
 
-export default async function CTA({
+export default function CTA({
 	_type,
 	_key,
 	link,
@@ -14,7 +14,7 @@ export default async function CTA({
 	children,
 	...rest
 }: Sanity.CTA & ComponentProps<'a'>) {
-	const locale = await getLocale()
+	const locale = useLocale()
 	const props = {
 		className: cn(stegaClean(style), className) || undefined,
 		children:

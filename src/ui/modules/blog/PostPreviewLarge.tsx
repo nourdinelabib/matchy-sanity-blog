@@ -4,15 +4,11 @@ import Date from '@/ui/Date'
 import Categories from './Categories'
 import Authors from './Authors'
 import { Link } from '@/i18n/navigation'
-import { getLocale } from 'next-intl/server'
+import { useLocale } from 'next-intl'
 
-export default async function PostPreviewLarge({
-	post,
-}: {
-	post: Sanity.BlogPost
-}) {
+export default function PostPreviewLarge({ post }: { post: Sanity.BlogPost }) {
 	if (!post) return null
-	const locale = await getLocale()
+	const locale = useLocale()
 
 	return (
 		<div className="group relative isolate grid items-center gap-x-8 gap-y-4 md:grid-cols-2">

@@ -5,9 +5,9 @@ import Date from '@/ui/Date'
 import Categories from './Categories'
 import { cn } from '@/lib/utils'
 import { Link } from '@/i18n/navigation'
-import { getLocale } from 'next-intl/server'
+import { useLocale } from 'next-intl'
 
-export default async function PostPreview({
+export default function PostPreview({
 	post,
 	skeleton,
 }: {
@@ -16,7 +16,7 @@ export default async function PostPreview({
 }) {
 	if (!post && !skeleton) return null
 
-	const locale = await getLocale()
+	const locale = useLocale()
 
 	return (
 		<div className="group relative isolate flex h-full flex-col space-y-2">
