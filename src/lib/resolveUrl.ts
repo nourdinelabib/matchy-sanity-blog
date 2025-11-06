@@ -13,12 +13,13 @@ export default function resolveUrl(
 	const segment = '/'
 	const slug = page?.metadata?.slug?.current
 	const path = slug === 'index' ? null : slug
+	const currentLocale = locale ?? page?.language ?? routing.defaultLocale
+	const localePrefix = currentLocale + segment
 
 	return [
 		process.env.NEXT_PUBLIC_BASE_URL,
 		segment,
-		locale ?? routing.defaultLocale,
-		segment,
+		localePrefix,
 		path,
 		stegaClean(params),
 	]

@@ -22,7 +22,7 @@ export async function GET() {
 				metadata,
 				'image': metadata.image.asset->url,
 			},
-			'posts': *[_type == 'blog.post']{
+			'posts': *[_type == 'blog.post']|order(publishDate desc){
 				_type,
 				body,
 				publishDate,
@@ -43,13 +43,13 @@ export async function GET() {
 		)
 	}
 
-	const url = resolveUrl(blog)
+	const baseUrl = process.env.NEXT_PUBLIC_BASE_URL + '/'
 
 	const feed = new Feed({
 		title: blog?.title || blog.metadata.title,
 		description: blog.metadata.description,
-		link: url,
-		id: url,
+		link: baseUrl,
+		id: baseUrl,
 		copyright,
 		favicon: process.env.NEXT_PUBLIC_BASE_URL + '/favicon.ico',
 		language: routing.defaultLocale,
@@ -92,7 +92,7 @@ export async function GET() {
 
 	return new Response(feed.atom1(), {
 		headers: {
-			'Content-Type': 'application/atom+xml',
+			'Content-Type': 'application/atom+xml; charset=utf-8',
 		},
 	})
 }

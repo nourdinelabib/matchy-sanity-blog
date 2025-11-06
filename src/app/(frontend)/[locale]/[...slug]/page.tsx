@@ -55,8 +55,7 @@ async function getPost({ slug, locale }: Params & { locale: string }) {
 
 	if (!blogTemplateExists) throw new Error(errors.missingBlogTemplate)
 
-	// With BLOG_DIR = '', slug array contains just the blog post slug
-	const blogSlug = slug.join('/')
+	const blogSlug = decodeURIComponent(slug.join('/'))
 
 	return await fetchSanityLive<Sanity.BlogPost & { modules: Sanity.Module[] }>({
 		query: groq`*[
