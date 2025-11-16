@@ -72,7 +72,7 @@ async function getPost({ slug, locale }: Params & { locale: string }) {
 				}
 			},
 			'readTime': length(string::split(pt::text(body), ' ')) / 200,
-			'headings': body[style in ['h2', 'h3']]{
+			'headings': body[style in ['h2']]{
 				style,
 				'text': pt::text(@)
 			},
