@@ -1,51 +1,54 @@
 // app/api/revalidate/route.ts
 import { revalidatePath } from 'next/cache'
 import { type NextRequest, NextResponse } from 'next/server'
-import { parseBody } from 'next-sanity/webhook'
+import { isValidSignature, SIGNATURE_HEADER_NAME } from '@sanity/webhook'
 
-// Define the webhook payload type
-type WebhookPayload = {
-	_type: string
-	_id?: string
-	slug?: {
-		current: string
-	}
-}
+const secret = process.env.SANITY_WEBHOOK_SECRET!
 
 export async function POST(request: NextRequest) {
 	try {
-		// 1. Verify the secret token
-		const secret = request.nextUrl.searchParams.get('secret')
+		// 1. Read the raw body
+		const body = await request.text()
 
-		if (secret !== process.env.SANITY_REVALIDATE_SECRET) {
-			return NextResponse.json({ message: 'Invalid secret' }, { status: 401 })
+		// 2. Get the signature from headers
+		const signature = request.headers.get(SIGNATURE_HEADER_NAME)
+
+		// 3. Verify the signature
+		if (!signature || !(await isValidSignature(body, signature, secret))) {
+			return NextResponse.json(
+				{ success: false, message: 'Invalid signature' },
+				{ status: 401 },
+			)
 		}
 
-		// 2. Parse the webhook payload - access the body property
-		const { body } = await parseBody<WebhookPayload>(request)
+		// 4. Parse the verified body
+		const jsonBody = JSON.parse(body)
 
-		if (!body?._type) {
-			return NextResponse.json({ message: 'Bad Request' }, { status: 400 })
+		if (!jsonBody?._type) {
+			return NextResponse.json(
+				{ success: false, message: 'Bad Request' },
+				{ status: 400 },
+			)
 		}
 
-		// Replace 'post' with your Sanity document type
+		// 5. Revalidate based on content type
 		revalidatePath('/blog')
 		revalidatePath('/')
 
-		// Optional: revalidate specific post
-		if (body.slug?.current) {
-			revalidatePath(`/blog/${body.slug.current}`)
-			revalidatePath(`/${body.slug.current}`)
+		if (jsonBody.slug?.current) {
+			revalidatePath(`/blog/${jsonBody.slug.current}`)
+			revalidatePath(`/${jsonBody.slug.current}`)
 		}
 
 		return NextResponse.json({
+			success: true,
 			revalidated: true,
 			now: Date.now(),
 		})
 	} catch (err) {
 		console.error('Revalidation error:', err)
 		return NextResponse.json(
-			{ message: 'Internal Server Error' },
+			{ success: false, message: 'Internal Server Error' },
 			{ status: 500 },
 		)
 	}
