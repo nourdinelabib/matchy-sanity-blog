@@ -36,8 +36,7 @@ export async function fetchSanity<T = any>({
 					perspective: 'published',
 					useCdn: true,
 					next: {
-						revalidate: 3600, // every hour
-						...next,
+						revalidate: 0, // every hour
 					},
 				},
 	)
