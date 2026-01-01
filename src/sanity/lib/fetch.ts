@@ -5,42 +5,6 @@ import { token } from '@/sanity/lib/token'
 import { dev } from '@/lib/env'
 import { draftMode } from 'next/headers'
 import { defineLive } from 'next-sanity/live'
-import { type QueryOptions, type QueryParams } from 'next-sanity'
-
-export async function fetchSanity<T = any>({
-	query,
-	params = {},
-	next,
-}: {
-	query: string
-	params?: Partial<QueryParams>
-	next?: QueryOptions['next']
-}) {
-	const preview = dev || (await draftMode()).isEnabled
-
-	return client.fetch<T>(
-		query,
-		params,
-		preview
-			? {
-					stega: true,
-					perspective: 'drafts',
-					useCdn: false,
-					token,
-					next: {
-						revalidate: 0,
-						...next,
-					},
-				}
-			: {
-					perspective: 'published',
-					useCdn: true,
-					next: {
-						revalidate: 0, // every hour
-					},
-				},
-	)
-}
 
 export const { sanityFetch, SanityLive } = defineLive({
 	client,
